@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Asteroids</title>
+    <link rel="stylesheet" href="index.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cascadia+Mono:ital,wght@0,200..700;1,200..700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="render-container">
+    </div>
+    <div id="progress-bar-container" role="status" aria-live="polite" aria-label="Loading module">
+      <div class="progress-bar-outline">
+        <div id="progress-bar" class="progress-bar"></div>
+      </div>
+    </div>
+    <script type="module">
+      import { loadWasmModule } from "./wasmloader.js";
+      const MODULE_FALLBACK_SIZE = 10374790;
+      const progressBar = document.getElementById("progress-bar");
+
+      const setProgress = (value) => {
+        if (!progressBar) {
+          return;
+        }
+        let clamped = Math.min(Math.max(value ?? 1, 0.005), 1);
+        progressBar.style.transform = `scaleX(${clamped})`;
+      };
+
+      setProgress(0);
+
+      await loadWasmModule("./wasm/App.wasm", MODULE_FALLBACK_SIZE, 200, (progress) => {
+        setProgress(progress);
+      }).then((module) => {
+          // module.init()
+      });
+    </script>
+  </body>
+</html>

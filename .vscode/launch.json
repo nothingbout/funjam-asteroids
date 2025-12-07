@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:asteroids}",
+            "name": "Debug App",
+            "program": "${workspaceFolder:asteroids}/.build/debug/App",
+            "preLaunchTask": "swift: Build Debug App"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:asteroids}",
+            "name": "Release App",
+            "program": "${workspaceFolder:asteroids}/.build/release/App",
+            "preLaunchTask": "swift: Build Release App"
+        }
+    ]
+}

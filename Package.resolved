@@ -1,0 +1,33 @@
+{
+  "originHash" : "2e5efdeb8c118ba017b8747e67fdbb0f1ac51e6e294ad8f62f8f1406f86165f9",
+  "pins" : [
+    {
+      "identity" : "javascriptkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftwasm/JavaScriptKit",
+      "state" : {
+        "revision" : "4b327dc40d3931c2236ed43c6b47325c17c88afe",
+        "version" : "0.37.0"
+      }
+    },
+    {
+      "identity" : "swift-icudata-slim",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/GoodNotes/swift-icudata-slim.git",
+      "state" : {
+        "revision" : "31cbbf135568735c518171e0258e1ab47e20e66a",
+        "version" : "0.2.0"
+      }
+    },
+    {
+      "identity" : "swift-syntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftlang/swift-syntax",
+      "state" : {
+        "revision" : "f99ae8aa18f0cf0d53481901f88a0991dc3bd4a2",
+        "version" : "601.0.1"
+      }
+    }
+  ],
+  "version" : 3
+}
