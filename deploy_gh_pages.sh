@@ -35,7 +35,7 @@ fi
 cp -r ${SRC_DIRECTORY} ${DST_DIRECTORY}
 git add ${DST_DIRECTORY}
 git commit -m "Deploy to Github Pages"
-git push -f origin ${DST_BRANCH}
+git push -f ${REMOTE_NAME} ${DST_BRANCH}
 
 git checkout ${SRC_BRANCH}
 git branch -D ${DST_BRANCH}
