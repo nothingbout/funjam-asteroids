@@ -50,9 +50,14 @@ public struct Angle: Equatable, Hashable, Sendable {
         return .radians(deltaRads)
     }
 
-    @inlinable public func loopingMoveTowards(_ target: Self, maxDelta: Self, direction: WindingDirection?) -> Self {
+    @inlinable public func loopingMoveTowards(_ target: Self, maxDelta: Self, direction: WindingDirection? = nil) -> Self {
         let delta = self.loopingDelta(from: target, direction: direction)
+        print("delta: \(delta.degrees)")
         if delta.abs() <= maxDelta { return target }
         return self + delta.sign() * maxDelta
+    }
+
+    @inlinable public func moveTowardsAbsolute(_ target: Self, maxDelta: Self) -> Self {
+        return .radians(Math.moveTowards(radians, target: target.radians, maxDelta: maxDelta.radians))
     }
 }

@@ -45,4 +45,12 @@ public struct Rect: Equatable, Hashable, Sendable {
         get { position.y + size.y }
         set { size.y = newValue - position.y }
     }
+
+    @inlinable public func contains(_ point: Vector2) -> Bool {
+        return point.x >= xMin && point.x <= xMax && point.y >= yMin && point.y <= yMax
+    }
+
+    @inlinable public func outset(by amount: Double) -> Rect {
+        return Rect(position: position - Vector2(amount, amount), size: size + Vector2(amount * 2.0, amount * 2.0))
+    }
 }

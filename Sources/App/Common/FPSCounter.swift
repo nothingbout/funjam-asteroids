@@ -17,7 +17,7 @@ class FPSCounter {
             ),
             relativePivot: Vector2(1.0, 0.5),
             color: Color("#777777")!,
-            data: .text(text: "FPS: ??", fontSize: 12.0)
+            data: .text(text: "FPS: ??", fontSize: 24.0)
         )
     }
 
@@ -28,7 +28,7 @@ class FPSCounter {
             let fps = Double(_frameCount) / _secondsAccumulated
             _secondsAccumulated = 0.0
             _frameCount = 0
-            _labelObject.data = .text(text: "FPS: \(Int(round(fps)))", fontSize: 12.0)
+            _labelObject.data = .text(text: "FPS: \(Int(round(fps)))", fontSize: 24.0)
         }
         _labelObject.transform.translation = Vector2(context.viewSize.x - 20.0, 30.0)
     }

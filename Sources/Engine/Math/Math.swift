@@ -35,6 +35,12 @@ public struct Math {
         return lerpUnclamped(toMin, toMax, by: t)
     }
 
+    @inlinable public static func moveTowards(_ current: Double, target: Double, maxDelta: Double) -> Double {
+        let delta = target - current
+        if abs(delta) <= maxDelta { return target }
+        return current + sign(delta) * maxDelta
+    }
+
     @inlinable public static func positiveRemainder(_ value: Double, dividingBy divisor: Double) -> Double {
         let remainder = value.truncatingRemainder(dividingBy: divisor)
         return remainder < 0.0 ? remainder + divisor : remainder

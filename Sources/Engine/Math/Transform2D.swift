@@ -23,4 +23,8 @@ public struct Transform2D: Equatable, Hashable, Sendable {
             depth: parent.depth + child.depth
         )
     }
+
+    public func transformPosition(_ position: Vector2) -> Vector2 {
+        return translation + position.rotatedBy(rotation) * scale
+    }
 }
