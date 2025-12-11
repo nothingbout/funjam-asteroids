@@ -35,6 +35,7 @@ fi
 cp -r ${SRC_DIRECTORY} ${DST_DIRECTORY}
 git add ${DST_DIRECTORY}
 git commit -m "Deploy to Github Pages"
+git merge --no-edit gh-pages-static # Optional, comment out this line if you don't have a gh-pages-static branch
 git push -f ${REMOTE_NAME} ${DST_BRANCH}
 
 git checkout ${SRC_BRANCH}

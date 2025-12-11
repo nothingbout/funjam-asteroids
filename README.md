@@ -32,8 +32,9 @@ The deploy script will do the following:
 2) Runs `./build_web_dist.sh` which produces `./Web/dist` as a result
 3) Copies `./Web/dist` to `./docs`
 4) Adds and commits `./docs` to the `gh-pages` branch
-4) Force pushes the `gh-pages` branch to the given remote
-5) Deletes the local `gh-pages` branch
+5) [OPTIONAL] Merges any persistent content on the `gh-pages-static` branch onto the `gh-pages` branch.
+6) Force pushes the `gh-pages` branch to the given remote
+7) Deletes the local `gh-pages` branch
 
 As a result, there will be no version history on GitHub for the `gh-pages` branch for previously deployed page versions.
 
