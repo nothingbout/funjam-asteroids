@@ -35,6 +35,11 @@ body {
     line-height: 1.0;
 }
 
+a:link{color:inherit}
+a:active{color:inherit}
+a:visited{color:inherit}
+a:hover{color:inherit}
+
 #render-container {
     flex: 1;
     width: 100vw;
@@ -49,6 +54,11 @@ body {
 
 #render-container div {
     white-space: pre;
+}
+
+#render-container a {
+    touch-action: auto;
+    pointer-events: auto;
 }
 
 #progress-bar-container {

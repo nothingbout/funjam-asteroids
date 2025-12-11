@@ -8,10 +8,10 @@ class RocketShip {
     private var _position: Vector2 = .zero
     private var _velocity: Vector2 = .zero
     private var _isThrusting: Bool = false
-    private var _timeSinceHit: Double = 1000.0
+    private var _timeSinceHit: Double = Double.infinity
     private var _health: Double = 100.0
 
-    private var _timeSinceFiredProjectile: Double = 0.0
+    private var _timeSinceFiredProjectile: Double = Double.infinity
 
     private let _bodyObject: RenderObject
     private var _thrustObjects: [RenderObject] = []
@@ -131,7 +131,7 @@ class RocketShip {
 
     func handleAsteroidCollision(_ asteroid: Asteroid) -> Bool {
         let intersection = asteroid.shape.circleIntersection(center: _position, radius: _shipSize * 0.5, asteroidTransform: asteroid.transform)
-        if let (position, normal) = intersection {
+        if let (_, normal) = intersection {
             applyHit(direction: normal)
             return true
         }

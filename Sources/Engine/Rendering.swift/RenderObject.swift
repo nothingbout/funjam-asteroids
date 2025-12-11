@@ -3,6 +3,7 @@ import Synchronization
 
 public enum RenderData: Equatable, Sendable {
     case text(text: String, fontSize: Double)
+    case link(text: String, url: String, fontSize: Double)
     case rectangle(width: Double, height: Double, cornerRadius: Double? = nil, strokeWidth: Double? = nil)
 }
 

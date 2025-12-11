@@ -6,6 +6,8 @@ private extension RenderData {
         switch (self, other) {
         case (.text, .text):
             return true
+        case (.link, .link):
+            return false
         case (.rectangle(_, _, cornerRadius: let cornerRadius1, strokeWidth: let strokeWidth1), 
               .rectangle(_, _, cornerRadius: let cornerRadius2, strokeWidth: let strokeWidth2)):
             if (cornerRadius1 != nil) != (cornerRadius2 != nil) {
@@ -22,6 +24,7 @@ private extension RenderData {
 }
 
 class WebRenderObject {
+    private let _document: JSValue
     private let _element: JSValue
     private var _frameTime: FrameTime
     private var _transform: Transform2D
@@ -34,6 +37,7 @@ class WebRenderObject {
     public var frameTime: FrameTime { _frameTime }
 
     init(document: JSValue, container: JSValue, frameTime: FrameTime, renderObject: RenderObject, renderScale: Double, renderOffset: Vector2) {
+        _document = document
         _element = document.createElement("div")
         _element.style.position = "absolute"
         _element.style.boxSizing = "border-box"
@@ -99,6 +103,8 @@ class WebRenderObject {
         switch _data {
         case .text:
             _element.style.color = color.toHexString().jsValue
+        case .link:
+            _element.style.color = color.toHexString().jsValue
         case .rectangle(_, _, _, strokeWidth: let strokeWidth):
             if strokeWidth != nil {
                 _element.style.borderStyle = "solid".jsValue
@@ -116,6 +122,13 @@ class WebRenderObject {
         case .text(let text, let fontSize):
             _element.textContent = text.jsValue
             _element.style.fontSize = "\(fontSize)px".jsValue
+        case .link(let text, let url, let fontSize):
+            let a = _document.createElement("a")
+            a.textContent = text.jsValue
+            a.style.fontSize = "\(fontSize)px".jsValue
+            a.href = url.jsValue
+            a.target = "_blank".jsValue
+            _ = _element.appendChild(a)
         case .rectangle(let width, let height, let cornerRadius, let strokeWidth):
             _element.style.width = "\(width)px".jsValue
             _element.style.height = "\(height)px".jsValue

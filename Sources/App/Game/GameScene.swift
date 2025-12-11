@@ -19,6 +19,7 @@ class GameScene {
     private let _arenaBounds: ArenaBounds
     private var _gameState: GameState = GameState()
     private var _score: Int = 0
+    private var _sourceCodeLinkObject: RenderObject? = nil
 
     init() {
         _arenaBounds = ArenaBounds(topMargin: 50.0, otherMargins: 20.0)
@@ -53,10 +54,16 @@ class GameScene {
         }
         else {
             _gameState.rocketShip.update(context)
-            if _gameState.rocketShip.handleBoundsCollision(_arenaBounds.bounds) {
-                context.soundPlayer.playSound("hit4")
+            if _gameState.rocketShip.handleBoundsCollision(_arenaBounds.bounds) && !_gameState.rocketShip.isDestroyed {
+                context.soundPlayer.playSound("hit4", volume: 0.5)
             }
-            
+
+            for asteroid in _gameState.asteroids {
+                if _gameState.rocketShip.handleAsteroidCollision(asteroid) && !_gameState.rocketShip.isDestroyed {
+                    context.soundPlayer.playSound("hit4", volume: 0.5)
+                }
+            }
+
             if context.inputState.keyboardKeyPressedState(.space).isPressed {
                 if _gameState.spaceReleasedAfterStart {
                     if let projectile = _gameState.rocketShip.tryFireProjectile() {
@@ -81,9 +88,6 @@ class GameScene {
         }
 
         for asteroid in _gameState.asteroids {
-            if _gameState.rocketShip.handleAsteroidCollision(asteroid) {
-                context.soundPlayer.playSound("hit4")
-            }
             for projectile in _gameState.projectiles {
                 if let (impactPoint, impactNormal) = asteroid.handleProjectileCollision(projectile) {
                     projectile.destroyAfter(0.03)
@@ -125,7 +129,7 @@ class GameScene {
         _gameState.particles.removeAll { $0.isDestroyed }
 
         if !_gameState.gameOver && _gameState.rocketShip.isDestroyed {
-            context.soundPlayer.playSound("death")
+            context.soundPlayer.playSound("death", volume: 0.5)
             _gameState.particles.append(contentsOf: Particle.explosion(
                 position: _gameState.rocketShip.position, velocity: _gameState.rocketShip.velocity, 
                 minVelocityAngle: .degrees(0.0), maxVelocityAngle: .degrees(360.0),
@@ -204,15 +208,30 @@ class GameScene {
         context.renderer.renderObject(scoreText)
 
         if !_gameState.gameStarted {
-            var startText = ""
-            startText += "Move with arrow keys, fire with space. Press space to start."
             let startTextObject = RenderObject(
                 transform: Transform2D(translation: _arenaBounds.bounds.center, rotation: .zero, scale: .one), 
-                relativePivot: Vector2(0.5, 0.5),
                 color: Color("#777777")!, 
-                data: .text(text: startText, fontSize: 24.0)
+                data: .text(text: "Move with arrow keys, fire with space. Press space to start.", fontSize: 24.0)
             )
             context.renderer.renderObject(startTextObject)
+
+            let sourceAvailablePos = Vector2.lerp(_arenaBounds.bounds.center, Vector2(_arenaBounds.bounds.center.x, _arenaBounds.bounds.yMax), by: 0.7)
+            let sourceAvailableTextObject = RenderObject(
+                transform: Transform2D(translation: sourceAvailablePos + Vector2(0.0, -16.0), rotation: .zero, scale: .one), 
+                color: Color("#777777")!, 
+                data: .text(text: "Source available at:", fontSize: 18.0)
+            )
+            context.renderer.renderObject(sourceAvailableTextObject)
+
+            if _sourceCodeLinkObject == nil {
+                let url = "https://github.com/nothingbout/funjam-asteroids"
+                _sourceCodeLinkObject = RenderObject(
+                    transform: Transform2D(translation: sourceAvailablePos + Vector2(0.0, 16.0), rotation: .zero, scale: .one), 
+                    color: Color("#7777BB")!, 
+                    data: .link(text: url, url: url, fontSize: 18.0)
+                )
+            }
+            context.renderer.renderObject(_sourceCodeLinkObject!)
         }
     }
 }

@@ -7,11 +7,11 @@ public class WebSoundPlayer {
     public init() {
     }
 
-    public func playSound(_ name: String) {
+    public func playSound(_ name: String, volume: Double = 1.0) {
         let filePath = "./resources/\(name).wav"
         let Audio = JSObject.global.Audio.object!
         let audio = Audio.new(filePath).jsValue
-        audio.volume = volume.jsValue
+        audio.volume = (self.volume * volume).jsValue
         _ = audio.play()
     }
 }
