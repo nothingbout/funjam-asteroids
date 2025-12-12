@@ -47,7 +47,7 @@ class RocketShip {
 
     func initPosition(_ position: Vector2, rotation: Angle) {
         _position = position
-        _rotation = rotation
+        _rotation = .degrees(-90.0)
         _velocity = .zero
     }
 

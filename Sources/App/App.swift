@@ -22,10 +22,10 @@ struct App {
                 case .resize:
                     // print("resizeEvent: \(platform.renderer.dimensions)")
                     break
-                case .keyboard(let payload):
+                case .keyboard(_):
                     // print("keyboardEvent \(payload)")
                     break
-                case .mouse(let payload):
+                case .mouse(_):
                     // print("mouseEvent \(payload), positionInRenderer: \(platform.renderer.position(of: payload))")
                     break
                 }

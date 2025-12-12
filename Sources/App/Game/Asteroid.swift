@@ -76,6 +76,7 @@ class Asteroid {
             let projectileDirection = projectile.velocity.direction()
             // _velocity += projectileDirection * 2.0
             _rotationSpeed += .radians(Vector2.cross(deltaFromCenter, projectileDirection) * 0.001)
+            _velocity += projectileDirection * 2.0
             _timeSinceHit = 0.0
             _health -= 1.0
             return (impactPoint: impactPoint, normal: deltaFromCenter.direction())

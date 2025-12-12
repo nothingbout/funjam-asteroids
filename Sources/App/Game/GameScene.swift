@@ -30,7 +30,7 @@ class GameScene {
         _arenaBounds.update(context)
 
         if !_gameState.gameStarted {
-            if !context.inputState.keyboardKeyPressedState(.space).isPressed {
+            if !context.inputState.keyboardKeyPressedState(.enter).isPressed {
                 return
             }
 
@@ -208,14 +208,46 @@ class GameScene {
         context.renderer.renderObject(scoreText)
 
         if !_gameState.gameStarted {
-            let startTextObject = RenderObject(
-                transform: Transform2D(translation: _arenaBounds.bounds.center, rotation: .zero, scale: .one), 
+            let gameTitlePosition = _arenaBounds.bounds.center + Vector2(0.0, -120.0)
+            let gameTitleObject = RenderObject(
+                transform: Transform2D(translation: gameTitlePosition, rotation: .zero, scale: .one), 
+                relativePivot: Vector2(0.5, 1.0),
                 color: Color("#777777")!, 
-                data: .text(text: "Move with arrow keys, fire with space. Press space to start.", fontSize: 24.0)
+                data: .text(text: """
+                █████╗ ███████╗████████╗███████╗██████╗  ██████╗  ██████╗ ██████╗ ██╗██████╗ ███████╗
+                ██╔══██╗██╔════╝╚══██╔══╝██╔════╝██╔══██╗██╔═══██╗██╔════╝██╔═══██╗██║██╔══██╗██╔════╝
+                ███████║█████╗     ██║   █████╗  ██████╔╝██║   ██║██║     ██║   ██║██║██║  ██║█████╗  
+                ██╔══██║██╔══╝     ██║   ██╔══╝  ██╔══██╗██║   ██║██║     ██║   ██║██║██║  ██║██╔══╝  
+                ██║  ██║███████╗   ██║   ███████╗██║  ██║╚██████╔╝╚██████╗╚██████╔╝██║██████╔╝███████╗
+                ╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═════╝ ╚═╝╚═════╝ ╚══════╝
+                """, fontSize: 24.0)
+            )
+            context.renderer.renderObject(gameTitleObject)
+
+            let gameTitleDisclaimerObject = RenderObject(
+                transform: Transform2D(translation: gameTitlePosition + Vector2(0.0, 12.0), rotation: .zero, scale: .one), 
+                relativePivot: Vector2(0.5, 0.0),
+                color: Color("#555555")!, 
+                data: .text(text: "Disclaimer: AI was used in the creation of this title art.", fontSize: 8.0)
+            )
+            context.renderer.renderObject(gameTitleDisclaimerObject)
+
+            let versionTextObject = RenderObject(
+                transform: Transform2D(translation: gameTitlePosition + Vector2(604, 0.0), rotation: .zero, scale: .one), 
+                relativePivot: Vector2(1.0, 0.0),
+                color: Color("#777777")!, 
+                data: .text(text: "v0.1", fontSize: 18.0)
+            )
+            context.renderer.renderObject(versionTextObject)
+
+            let startTextObject = RenderObject(
+                transform: Transform2D(translation: _arenaBounds.bounds.center + Vector2(0.0, 120.0), rotation: .zero, scale: .one), 
+                color: Color("#777777")!, 
+                data: .text(text: "Move with [Arrow Keys], fire with [Space], press [Enter] to start.", fontSize: 24.0)
             )
             context.renderer.renderObject(startTextObject)
 
-            let sourceAvailablePos = Vector2.lerp(_arenaBounds.bounds.center, Vector2(_arenaBounds.bounds.center.x, _arenaBounds.bounds.yMax), by: 0.7)
+            let sourceAvailablePos = _arenaBounds.bounds.center + Vector2(0.0, 400.0)
             let sourceAvailableTextObject = RenderObject(
                 transform: Transform2D(translation: sourceAvailablePos + Vector2(0.0, -16.0), rotation: .zero, scale: .one), 
                 color: Color("#777777")!, 
