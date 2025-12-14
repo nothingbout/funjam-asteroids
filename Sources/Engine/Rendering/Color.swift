@@ -76,4 +76,8 @@ public struct Color: Equatable, Hashable, Sendable {
             a: Math.lerp(a.a, b.a, by: t)
         )
     }
+
+    public func withAlpha(_ alpha: Double) -> Color {
+        return Color(r: r, g: g, b: b, a: alpha)
+    }
 }

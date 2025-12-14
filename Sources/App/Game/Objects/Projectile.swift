@@ -5,16 +5,19 @@ class Projectile {
     private var _timeToDestroy: Double? = nil
     private var _position: Vector2
     private var _velocity: Vector2
+    private var _damage: Double
 
     private let _object: RenderObject
 
     var isDestroyed: Bool { _timeToDestroy != nil && _timeToDestroy! <= 0.0 }
     var position: Vector2 { _position }
     var velocity: Vector2 { _velocity }
+    var damage: Double { _damage }
 
-    init(position: Vector2, velocity: Vector2) {
+    init(position: Vector2, velocity: Vector2, damage: Double) {
         _position = position
         _velocity = velocity
+        _damage = damage
         _object = RenderObject(
             transform: .identity,
             color: Color("#FF3333")!,

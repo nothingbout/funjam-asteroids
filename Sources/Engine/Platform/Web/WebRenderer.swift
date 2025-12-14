@@ -28,8 +28,11 @@ public class WebRenderer {
         _container = container
     }
 
-    func renderPositionOfViewportCoordinate(_ viewportCoordinate: Vector2) -> Vector2 {
-        return (viewportCoordinate - _clientRect!.position - _renderOffset) / _renderScale
+    func renderPositionOfViewportCoordinate(_ viewportCoordinate: Vector2) -> Vector2? {
+        if let clientRect = _clientRect {
+            return (viewportCoordinate - clientRect.position - _renderOffset) / _renderScale
+        }
+        return nil
     }
 
     func startFrame(_ frameTime: FrameTime) {

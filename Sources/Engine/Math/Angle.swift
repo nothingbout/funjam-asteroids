@@ -36,7 +36,7 @@ public struct Angle: Equatable, Hashable, Sendable {
     @inlinable public func sine() -> Double { return sin(radians) }
     @inlinable public func tangent() -> Double { return tan(radians) }
 
-    @inlinable public func loopingDelta(from: Self, direction: WindingDirection?) -> Self { 
+    @inlinable public func loopingDelta(from: Self, direction: WindingDirection? = nil) -> Self { 
         var deltaRads = (radians - from.radians).truncatingRemainder(dividingBy: 2.0 * .pi)
         switch direction {
         case .none:
@@ -51,8 +51,8 @@ public struct Angle: Equatable, Hashable, Sendable {
     }
 
     @inlinable public func loopingMoveTowards(_ target: Self, maxDelta: Self, direction: WindingDirection? = nil) -> Self {
-        let delta = self.loopingDelta(from: target, direction: direction)
-        print("delta: \(delta.degrees)")
+        assert(maxDelta >= .zero)
+        let delta = target.loopingDelta(from: self, direction: direction)
         if delta.abs() <= maxDelta { return target }
         return self + delta.sign() * maxDelta
     }

@@ -30,9 +30,14 @@ public struct Math {
         return clamp01(inverseLerpUnclamped(a, b, from: value))
     }
 
-    @inlinable public static func map(_ value: Double, from fromMin: Double, _ fromMax: Double, to toMin: Double, _ toMax: Double) -> Double {
+    @inlinable public static func mapUnclamped(_ value: Double, from fromMin: Double, _ fromMax: Double, to toMin: Double, _ toMax: Double) -> Double {
         let t = inverseLerpUnclamped(fromMin, fromMax, from: value)
         return lerpUnclamped(toMin, toMax, by: t)
+    }
+
+    @inlinable public static func map(_ value: Double, from fromMin: Double, _ fromMax: Double, to toMin: Double, _ toMax: Double) -> Double {
+        let clampedValue = fromMin < fromMax ? clamp(value, min: fromMin, max: fromMax) : clamp(value, min: fromMax, max: fromMin)
+        return mapUnclamped(clampedValue, from: fromMin, fromMax, to: toMin, toMax)
     }
 
     @inlinable public static func moveTowards(_ current: Double, target: Double, maxDelta: Double) -> Double {

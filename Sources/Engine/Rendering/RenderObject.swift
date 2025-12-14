@@ -33,7 +33,7 @@ public class RenderObject {
     }
 
     public static func line(from: Vector2, to: Vector2, width lineWidth: Double, color: Color, depth: Double) -> Self {
-        let (direction, length) = (to - from).directionAndMagnitude()
+        let (direction, length) = (to - from).directionAndMagnitude() ?? (.init(1.0, 0.0), 0.0)
         return Self(
             transform: Transform2D(
                 translation: Vector2.lerp(from, to, by: 0.5),

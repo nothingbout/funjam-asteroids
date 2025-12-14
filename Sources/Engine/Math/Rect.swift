@@ -9,6 +9,10 @@ public struct Rect: Equatable, Hashable, Sendable {
         self.size = size
     }
 
+    @inlinable public init(center: Vector2, size: Vector2) {
+        self.init(position: center - size * 0.5, size: size)
+    }
+
     @inlinable public static var zero: Rect { .init(position: .zero, size: .zero) }
 
     @inlinable public var center: Vector2 {

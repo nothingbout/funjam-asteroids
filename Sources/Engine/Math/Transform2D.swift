@@ -27,4 +27,12 @@ public struct Transform2D: Equatable, Hashable, Sendable {
     public func transformPosition(_ position: Vector2) -> Vector2 {
         return translation + position.rotatedBy(rotation) * scale
     }
+
+    public func transformVector(_ vector: Vector2) -> Vector2 {
+        return vector.rotatedBy(rotation) * scale
+    }
+
+    public func transformDirection(_ direction: Vector2) -> Vector2 {
+        return direction.rotatedBy(rotation)
+    }
 }

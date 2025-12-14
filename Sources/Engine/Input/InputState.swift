@@ -13,6 +13,10 @@ public struct InputState {
         public var isPressed: Bool {
             return self == .pressedThisFrame || self == .held
         }
+
+        public var wasPressedThisFrame: Bool {
+            return self == .pressedThisFrame
+        }
     }
 
     private struct KeyboardKeyState {

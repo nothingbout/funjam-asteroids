@@ -1,6 +1,9 @@
 import Foundation
 import Engine
 
+enum AppEvent {
+}
+
 @main
 struct App {
     static func main() {
@@ -11,7 +14,7 @@ struct App {
         var inputState = InputState()
 
         let fpsCounter = FPSCounter()
-        let scene = GameScene()
+        let sceneManager = SceneManager()
 
         platform.startAnimationUpdates { frameTime in
             inputState.startFrame(frameTime)
@@ -35,16 +38,17 @@ struct App {
                 frameTime: frameTime, 
                 viewSize: platform.renderer.renderSize, 
                 inputState: inputState, 
-                soundPlayer: platform.soundPlayer
+                soundPlayer: platform.soundPlayer,
+                storage: platform.storage
             )
-            scene.update(updateContext)
+            sceneManager.update(updateContext)
             fpsCounter.update(updateContext)
 
             let renderContext = RenderContext(
                 renderer: platform.renderer
             )
-            scene.render(renderContext)
-            fpsCounter.render(renderContext)
+            sceneManager.render(renderContext)
+            // fpsCounter.render(renderContext)
         }
 // #else
 // #endif

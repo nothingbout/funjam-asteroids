@@ -37,13 +37,11 @@ public struct Vector2: Equatable, Hashable, Sendable {
     @inlinable public func sqrMagnitude() -> Double { x * x + y * y }
     @inlinable public func magnitude() -> Double { sqrt(sqrMagnitude()) }
 
-    @inlinable public func direction(epsilon: Double = 1e-6) -> Self {
-        let (dir, _) = directionAndMagnitude(epsilon: epsilon)
-        return dir
-    }
-    @inlinable public func directionAndMagnitude(epsilon: Double = 1e-6) -> (Self, Double) {
+    @inlinable public func direction(epsilon: Double = 1e-6) -> Self? { directionAndMagnitude(epsilon: epsilon)?.0 ?? nil }
+    @inlinable public func directionAndMagnitude(epsilon: Double = 1e-6) -> (Self, Double)? {
         let mag = magnitude()
-        return mag > epsilon ? (self / mag, mag) : (.zero, 0.0)
+        if mag <= epsilon { return nil }
+        return (self / mag, mag)
     }
 
     @inlinable public static func dot(_ a: Self, _ b: Self) -> Double { a.x * b.x + a.y * b.y }
@@ -75,6 +73,14 @@ public struct Vector2: Equatable, Hashable, Sendable {
     }
     @inlinable public static func lerp(_ a: Self, _ b: Self, by t: Double) -> Self {
         lerpUnclamped(a, b, by: Math.clamp01(t))
+    }
+
+    @inlinable public static func moveTowards(_ current: Self, target: Self, maxDelta: Double) -> Self {
+        let (direction, distance) = (target - current).directionAndMagnitude() ?? (.zero, 0.0)
+        if distance <= maxDelta {
+            return target
+        }
+        return current + direction * maxDelta
     }
 
     public static func twoLineSegmentsIntersection(_ a: (Vector2, Vector2), _ b: (Vector2, Vector2), 

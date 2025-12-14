@@ -6,12 +6,14 @@ public class WebPlatform {
     private let _document: JSValue
     private let _renderer: WebRenderer
     private let _soundPlayer: WebSoundPlayer
+    private let _storage: WebStorage
 
     private var _events: [EngineEvent] = []
     private var _animationFrameListener: AnimationFrameListener? = nil
 
     public var renderer: WebRenderer { _renderer }
     public var soundPlayer: WebSoundPlayer { _soundPlayer }
+    public var storage: WebStorage { _storage }
 
     public init() {
         _window = JSObject.global.window
@@ -19,6 +21,7 @@ public class WebPlatform {
         let renderContainer = _document.getElementById("render-container")
         _renderer = WebRenderer(document: _document, container: renderContainer)
         _soundPlayer = WebSoundPlayer()
+        _storage = WebStorage()
         let progressBarContainer = _document.getElementById("progress-bar-container")
         if !progressBarContainer.isNull && !progressBarContainer.isUndefined {
             _ = progressBarContainer.setAttribute("hidden", "")
@@ -109,9 +112,12 @@ public class WebPlatform {
 
         func handleMouseEvent(_ jsEvent: JSValue) {
             let viewportEvent = WebMouseInput.payload(of: jsEvent)
+            guard let position = _renderer.renderPositionOfViewportCoordinate(viewportEvent.position) else {
+                return
+            }
             let event = MouseEventPayload(
                 eventType: viewportEvent.eventType, 
-                position: _renderer.renderPositionOfViewportCoordinate(viewportEvent.position),
+                position: position,
                 rendererIndex: 0
             )
             _events.append(.mouse(event))
